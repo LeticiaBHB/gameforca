@@ -27,16 +27,28 @@ bool letra_Existe(char chute)
     return false;
 }
 
+bool nao_acertou(){
+    for(char letra : PALAVRA_SECRETA){
+        if(!chutou[letra]){
+            return true;
+        }
+    }
+    return false;
+
+}
+
+bool nao_enforcou (){
+    return chutes_errados.size()<5;
+}
+
 int main()
 {
 
    // cout << PALAVRA_SECRETA << endl;
     cout<<"+_+_+_+_+_+_+_+ \n JOGO DA FORCA \n+_+_+_+_+_+_+_+"<<endl;
     cout<<endl;
-    bool nao_acertou = true;
-    bool nao_enforcou = true;
-    while (nao_acertou && nao_enforcou)
-    { //&& significa e/and
+
+    while (nao_acertou () && nao_enforcou ()){
 
         cout <<"chutes errados:";
         for(char letra: chutes_errados){
@@ -67,5 +79,15 @@ int main()
             chutes_errados.push_back(chute);//adiciona a lista do vector
         }
         cout<<endl;
+    }
+
+    cout<<"FIM DE JOGO!"<<endl;
+    cout<<"A palavra secreta era: "<<PALAVRA_SECRETA <<endl;
+    if (nao_acertou()){
+        cout<<"você perdeu!Tente novamente"<<endl;
+    }
+    else{
+        cout<<"Parabéns você acertou a palavra secreta!"<<endl;
+
     }
 }
