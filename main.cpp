@@ -2,11 +2,15 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <fstream>
+#include <ctime>
+#include <cstdlib>
+
 
 using namespace std;
 
 // char palavra_secreta[20]; // vetor de caracteres
-const string PALAVRA_SECRETA = "MELANCIA";
+string PALAVRA_SECRETA = "MELANCIA";
 map<char, bool> chutou; //tipo da vchave é char, e logo em seguida o tipo de valor
 vector<char> chutes_errados; //vetor dinamico
 
@@ -82,9 +86,38 @@ void chuta(){
     cout<<endl;
 }
 
+vector<string> le_arquivo(){//void não retorna nada
+    ifstream arquivo; //tipo de dados que vamos usar para ler valores de um arquivo
+    arquivo.open("palavras.txt"); //vai abrir
+    int quantidade_palavras;
+    arquivo >>quantidade_palavras;
+
+    //cout<<"O arquivo possui "<< quantidade_palavras<< " palavras." << endl;
+
+    vector<string> palavras_do_arquivo;
+
+    for (int i=0; i<quantidade_palavras; i++){
+        string palavra_lida;
+        arquivo >> palavra_lida;
+        //cout <<"Na linha "<< i <<" : "<< palavra_lida << endl;
+        palavras_do_arquivo.push_back(palavra_lida);
+    }
+    return palavras_do_arquivo;
+}
+void sorteia_palavra(){
+    vector<string>palavras = le_arquivo();
+    srand(time(NULL));
+    int indice_sorteado = rand() % palavras.size();
+    PALAVRA_SECRETA = palavras [indice_sorteado];
+}
+
+
+
 int main()
 {
     imprime_cabeçalho();
+    le_arquivo();
+    sorteia_palavra();
 
     while (nao_acertou () && nao_enforcou ()){
         imprime_erros();
